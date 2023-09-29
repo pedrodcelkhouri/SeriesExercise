@@ -1,20 +1,11 @@
 package project.demo.series.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class Series {
+    private Long id;
     private String name;
-
-    public Series() {
-    }
-
-    public Series(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
