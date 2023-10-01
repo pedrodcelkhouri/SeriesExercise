@@ -41,4 +41,10 @@ public class SeriesController {
         seriesService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody Series series){
+        seriesService.replace(series);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

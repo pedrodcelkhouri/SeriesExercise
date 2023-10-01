@@ -35,4 +35,9 @@ public class SeriesService {
     public void delete(long id) {
         seriesList.remove(findById(id));
     }
+
+    public void replace(Series series) {
+        delete(series.getId());
+        seriesList.add(series);
+    }
 }
