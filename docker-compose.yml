@@ -1,0 +1,14 @@
+version: '24.0.5'
+services:
+  db:
+    image: mysql
+    container_name: mysql_series
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - series_data:/var/lib/mysql
+
+volumes:
+  series_data:
