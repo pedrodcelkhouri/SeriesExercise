@@ -35,4 +35,10 @@ public class SeriesController {
     public ResponseEntity<Series> save(@RequestBody Series series){
         return new ResponseEntity<>(seriesService.save(series), HttpStatus.CREATED);
     }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable long id){
+        seriesService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
