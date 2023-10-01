@@ -1,5 +1,6 @@
 package project.demo.series.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,5 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Series {
     private Long id;
-    private String name;
+    @JsonProperty("name")
+    private String nameSeries;
 }

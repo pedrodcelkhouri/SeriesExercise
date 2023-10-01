@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.demo.series.domain.Series;
 import project.demo.series.service.SeriesService;
 import project.demo.series.util.DateUtil;
@@ -32,5 +29,10 @@ public class SeriesController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Series> findById(@PathVariable long id){
         return ResponseEntity.ok(seriesService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Series> save(@RequestBody Series series){
+        return new ResponseEntity<>(seriesService.save(series), HttpStatus.CREATED);
     }
 }
