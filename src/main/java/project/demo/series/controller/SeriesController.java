@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.demo.series.domain.Series;
+import project.demo.series.dto_requests.SeriesPostRequestBody;
+import project.demo.series.dto_requests.SeriesPutRequestBody;
 import project.demo.series.service.SeriesService;
 import project.demo.series.util.DateUtil;
 
@@ -28,12 +30,12 @@ public class SeriesController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Series> findById(@PathVariable long id){
-        return ResponseEntity.ok(seriesService.findById(id));
+        return ResponseEntity.ok(seriesService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Series> save(@RequestBody Series series){
-        return new ResponseEntity<>(seriesService.save(series), HttpStatus.CREATED);
+    public ResponseEntity<Series> save(@RequestBody SeriesPostRequestBody seriesPostRequestBody){
+        return new ResponseEntity<>(seriesService.save(seriesPostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -43,8 +45,8 @@ public class SeriesController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Series series){
-        seriesService.replace(series);
+    public ResponseEntity<Void> replace(@RequestBody SeriesPutRequestBody seriesPutRequestBody){
+        seriesService.replace(seriesPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

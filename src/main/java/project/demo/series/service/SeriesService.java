@@ -1,43 +1,44 @@
 package project.demo.series.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import project.demo.series.domain.Series;
+import project.demo.series.dto_requests.SeriesPostRequestBody;
+import project.demo.series.dto_requests.SeriesPutRequestBody;
+import project.demo.series.repository.SeriesRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
 public class SeriesService {
-    private static List<Series> seriesList;
 
-    static {
-        seriesList = new ArrayList<>(List.of(new Series(1L, "Friends"), new Series(2L, "HIMYM")));
-    }
+    private final SeriesRepository seriesRepository;
 
     public List<Series> listAll() {
-        return seriesList;
+        return seriesRepository.findAll();
     }
 
-    public Series findById(long id) {
-        return seriesList.stream().filter(series -> series.getId().equals(id)).findFirst()
+    public Series findByIdOrThrowBadRequestException(long id) {
+        return seriesRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Series not found"));
     }
 
-    public Series save(Series series) {
-        series.setId(ThreadLocalRandom.current().nextLong(3, 100000));
-        seriesList.add(series);
-        return series;
+    public Series save(SeriesPostRequestBody seriesPostRequestBody) {
+        return seriesRepository.save(Series.builder().nameSeries(seriesPostRequestBody.getName()).build());
     }
 
     public void delete(long id) {
-        seriesList.remove(findById(id));
+        seriesRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 
-    public void replace(Series series) {
-        delete(series.getId());
-        seriesList.add(series);
+    public void replace(SeriesPutRequestBody seriesPutRequestBody) {
+        Series savedSeries = findByIdOrThrowBadRequestException(seriesPutRequestBody.getId());
+        seriesRepository.save(Series.builder()
+                .id(savedSeries.getId())
+                .nameSeries(seriesPutRequestBody.getName())
+                .build());
     }
 }
