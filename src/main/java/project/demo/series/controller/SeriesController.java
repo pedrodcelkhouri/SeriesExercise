@@ -33,6 +33,11 @@ public class SeriesController {
         return ResponseEntity.ok(seriesService.findByIdOrThrowBadRequestException(id));
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Series>> findByName(@RequestParam String name){
+        return ResponseEntity.ok(seriesService.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Series> save(@RequestBody SeriesPostRequestBody seriesPostRequestBody){
         return new ResponseEntity<>(seriesService.save(seriesPostRequestBody), HttpStatus.CREATED);

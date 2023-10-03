@@ -21,13 +21,17 @@ public class SeriesService {
         return seriesRepository.findAll();
     }
 
+    public List<Series> findByName(String name) {
+        return seriesRepository.findByName(name);
+    }
+
     public Series findByIdOrThrowBadRequestException(long id) {
         return seriesRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Series not found"));
     }
 
     public Series save(SeriesPostRequestBody seriesPostRequestBody) {
-        return seriesRepository.save(Series.builder().nameSeries(seriesPostRequestBody.getName()).build());
+        return seriesRepository.save(Series.builder().name(seriesPostRequestBody.getName()).build());
     }
 
     public void delete(long id) {
@@ -38,7 +42,7 @@ public class SeriesService {
         Series savedSeries = findByIdOrThrowBadRequestException(seriesPutRequestBody.getId());
         seriesRepository.save(Series.builder()
                 .id(savedSeries.getId())
-                .nameSeries(seriesPutRequestBody.getName())
+                .name(seriesPutRequestBody.getName())
                 .build());
     }
 }

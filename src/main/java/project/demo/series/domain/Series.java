@@ -19,6 +19,5 @@ public class Series {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @JsonProperty("name")
-    private String nameSeries;
+    private String name;
 }

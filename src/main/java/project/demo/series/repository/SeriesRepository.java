@@ -6,4 +6,5 @@ import project.demo.series.domain.Series;
 import java.util.List;
 
 public interface SeriesRepository extends JpaRepository<Series, Long> {
+    List<Series> findByName(String name);
 }
