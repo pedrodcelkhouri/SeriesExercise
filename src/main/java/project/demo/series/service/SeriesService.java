@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import project.demo.series.domain.Series;
 import project.demo.series.dto_requests.SeriesPostRequestBody;
 import project.demo.series.dto_requests.SeriesPutRequestBody;
+import project.demo.series.exception.BadRequestException;
 import project.demo.series.repository.SeriesRepository;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class SeriesService {
 
     public Series findByIdOrThrowBadRequestException(long id) {
         return seriesRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Series not found"));
+                .orElseThrow(() -> new BadRequestException("Series not found"));
     }
 
     public Series save(SeriesPostRequestBody seriesPostRequestBody) {
