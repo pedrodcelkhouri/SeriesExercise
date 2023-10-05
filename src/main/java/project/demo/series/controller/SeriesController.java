@@ -1,5 +1,6 @@
 package project.demo.series.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class SeriesController {
     }
 
     @PostMapping
-    public ResponseEntity<Series> save(@RequestBody SeriesPostRequestBody seriesPostRequestBody){
+    public ResponseEntity<Series> save(@RequestBody @Valid SeriesPostRequestBody seriesPostRequestBody){
         return new ResponseEntity<>(seriesService.save(seriesPostRequestBody), HttpStatus.CREATED);
     }
 
