@@ -1,10 +1,8 @@
 package project.demo.series.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import project.demo.series.domain.Series;
 import project.demo.series.dto_requests.SeriesPostRequestBody;
 import project.demo.series.dto_requests.SeriesPutRequestBody;

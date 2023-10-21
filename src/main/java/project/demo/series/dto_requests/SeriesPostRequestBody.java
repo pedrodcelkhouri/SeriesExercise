@@ -2,7 +2,6 @@ package project.demo.series.dto_requests;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import org.hibernate.validator.constraints.URL;
 
 @Data
 public class SeriesPostRequestBody {
