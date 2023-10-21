@@ -23,6 +23,10 @@ public class SeriesService {
         return seriesRepository.findAll(pageable);
     }
 
+    public List<Series> listAllNonPageable() {
+        return seriesRepository.findAll();
+    }
+
     public List<Series> findByName(String name) {
         return seriesRepository.findByName(name);
     }

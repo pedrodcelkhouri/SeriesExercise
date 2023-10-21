@@ -31,6 +31,12 @@ public class SeriesController {
         return ResponseEntity.ok(seriesService.listAll(pageable));
     }
 
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Series>> listAll(){
+        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(seriesService.listAllNonPageable());
+    }
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<Series> findById(@PathVariable long id){
         return ResponseEntity.ok(seriesService.findByIdOrThrowBadRequestException(id));
