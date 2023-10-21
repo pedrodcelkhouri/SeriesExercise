@@ -3,6 +3,8 @@ package project.demo.series.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +26,9 @@ public class SeriesController {
     private final SeriesService seriesService;
 
     @GetMapping
-    public ResponseEntity<List<Series>> list(){
+    public ResponseEntity<Page<Series>> list(Pageable pageable){
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return ResponseEntity.ok(seriesService.listAll());
+        return ResponseEntity.ok(seriesService.listAll(pageable));
     }
 
     @GetMapping(path = "/{id}")
