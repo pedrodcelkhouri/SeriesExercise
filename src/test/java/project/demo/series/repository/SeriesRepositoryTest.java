@@ -1,5 +1,6 @@
 package project.demo.series.repository;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -57,8 +58,7 @@ class SeriesRepositoryTest {
         Series seriesSaved = this.seriesRepository.save(seriesToBeSaved);
         String name = seriesSaved.getName();
         List<Series> series = this.seriesRepository.findByName(name);
-        Assertions.assertThat(series).isNotEmpty();
-        Assertions.assertThat(series).contains(seriesSaved);
+        Assertions.assertThat(series).isNotEmpty().contains(seriesSaved);
     }
 
     @Test
@@ -67,6 +67,15 @@ class SeriesRepositoryTest {
         List<Series> series = this.seriesRepository.findByName("nameExample");
         Assertions.assertThat(series).isEmpty();
     }
+
+    @Test
+    @DisplayName("Save throw ConstraintViolationException when name is empty")
+    void save_ThrowsConstraintViolationException_WhenNameIsEmpty(){
+        Series series = new Series();
+//        Assertions.assertThatThrownBy(() -> this.seriesRepository.save(series)).isInstanceOf(ConstraintViolationException.class);
+        Assertions.assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> this.seriesRepository.save(series));
+    }
+
 
     private Series createSeries(){
         return Series.builder().name("Vikings").build();
