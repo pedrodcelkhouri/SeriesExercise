@@ -12,9 +12,7 @@ import project.demo.series.domain.Series;
 import project.demo.series.dto_requests.SeriesPostRequestBody;
 import project.demo.series.dto_requests.SeriesPutRequestBody;
 import project.demo.series.service.SeriesService;
-import project.demo.series.util.DateUtil;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,18 +20,15 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public class SeriesController {
-    private final DateUtil dateUtil;
     private final SeriesService seriesService;
 
     @GetMapping
     public ResponseEntity<Page<Series>> list(Pageable pageable){
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(seriesService.listAll(pageable));
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<Series>> listAll(){
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(seriesService.listAllNonPageable());
     }
 

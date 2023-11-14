@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import project.demo.series.domain.Series;
+import project.demo.series.util.SeriesCreator;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ class SeriesRepositoryTest {
     @Test
     @DisplayName("Save persists series when successful")
     void save_PersistSeries_WhenSuccessful(){
-        Series seriesToBeSaved = createSeries();
+        Series seriesToBeSaved = SeriesCreator.createSeriesToBeSaved();
         Series seriesSaved = this.seriesRepository.save(seriesToBeSaved);
         Assertions.assertThat(seriesSaved).isNotNull();
         Assertions.assertThat(seriesSaved.getId()).isNotNull();
@@ -31,7 +32,7 @@ class SeriesRepositoryTest {
     @Test
     @DisplayName("Save updates series when successful")
     void save_UpdatesSeries_WhenSuccessful(){
-        Series seriesToBeSaved = createSeries();
+        Series seriesToBeSaved = SeriesCreator.createSeriesToBeSaved();
         Series seriesSaved = this.seriesRepository.save(seriesToBeSaved);
         seriesSaved.setName("HIMYF");
         Series seriesUpdated = this.seriesRepository.save(seriesSaved);
@@ -44,7 +45,7 @@ class SeriesRepositoryTest {
     @Test
     @DisplayName("Delete removes series when successful")
     void delete_RemovesSeries_WhenSuccessful(){
-        Series seriesToBeSaved = createSeries();
+        Series seriesToBeSaved = SeriesCreator.createSeriesToBeSaved();
         Series seriesSaved = this.seriesRepository.save(seriesToBeSaved);
         this.seriesRepository.delete(seriesSaved);
         Optional<Series> seriesOptional = this.seriesRepository.findById(seriesSaved.getId());
@@ -54,7 +55,7 @@ class SeriesRepositoryTest {
     @Test
     @DisplayName("Find By Name returns list of series when successful")
     void findByName_ReturnsListOfSeries_WhenSuccessful(){
-        Series seriesToBeSaved = createSeries();
+        Series seriesToBeSaved = SeriesCreator.createSeriesToBeSaved();
         Series seriesSaved = this.seriesRepository.save(seriesToBeSaved);
         String name = seriesSaved.getName();
         List<Series> series = this.seriesRepository.findByName(name);
@@ -77,7 +78,5 @@ class SeriesRepositoryTest {
     }
 
 
-    private Series createSeries(){
-        return Series.builder().name("Vikings").build();
-    }
+    
 }
