@@ -74,7 +74,8 @@ class SeriesRepositoryTest {
     void save_ThrowsConstraintViolationException_WhenNameIsEmpty(){
         Series series = new Series();
 //        Assertions.assertThatThrownBy(() -> this.seriesRepository.save(series)).isInstanceOf(ConstraintViolationException.class);
-        Assertions.assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> this.seriesRepository.save(series));
+        Assertions.assertThatExceptionOfType(ConstraintViolationException.class).isThrownBy(() -> this.seriesRepository.save(series))
+                .withMessageContaining("This series name cannot be empty");
     }
 
 
