@@ -81,8 +81,7 @@ class SeriesControllerTest {
     @Test
     @DisplayName("findByName returns an empty list of series when series is not found")
     void findByName_ReturnsEmptyListOfSeries_WhenSeriesIsNotFound(){
-        BDDMockito.when(seriesServiceMock.findByName(ArgumentMatchers.anyString()))
-                .thenReturn(Collections.emptyList());
+        BDDMockito.when(seriesServiceMock.findByName(ArgumentMatchers.anyString())).thenReturn(Collections.emptyList());
         List<Series> series = seriesController.findByName("series").getBody();
         Assertions.assertThat(series).isNotNull().isEmpty();
     }
