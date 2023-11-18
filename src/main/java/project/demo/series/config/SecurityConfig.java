@@ -1,5 +1,6 @@
 package project.demo.series.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +17,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
+@SuppressWarnings("java:S5344")
 public class SecurityConfig {
+//    private final SeriesUserDetailsService seriesUserDetailsService;
     /**
      * BasicAuthenticationFilter
      * UsernamePasswordAuthenticationFilter
@@ -31,7 +35,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-//                csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) #deprecated
+//                csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) //deprecated
                 .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 //                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll());
@@ -40,6 +44,8 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        log.info("Password encoded {}", passwordEncoder.encode("user"));
+//        auth.userDetailsService(seriesUserDetailsService).passwordEncoder(passwordEncoder); //deprecated
         UserDetails user = User.withUsername("pedro").password(encoder.encode("hadouken")).roles("USER").build();
         return new InMemoryUserDetailsManager(user);
     }

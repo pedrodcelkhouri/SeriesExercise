@@ -53,7 +53,6 @@ public class SeriesController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Series> save(@RequestBody @Valid SeriesPostRequestBody seriesPostRequestBody){
         return new ResponseEntity<>(seriesService.save(seriesPostRequestBody), HttpStatus.CREATED);
     }

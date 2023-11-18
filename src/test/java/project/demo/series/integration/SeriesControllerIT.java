@@ -4,10 +4,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -28,11 +34,26 @@ import java.util.List;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class SeriesControllerIT {
     @Autowired
+    @Qualifier(value = "testRestTemplateRoleUser")
     private TestRestTemplate testRestTemplate;
-    @LocalServerPort
-    private int port;
+//    @LocalServerPort
+//    private int port;
     @Autowired
     private SeriesRepository seriesRepository;
+//    @Autowired
+//    private SeriesUserRepository seriesUserRepository;
+
+    @TestConfiguration
+    @Lazy
+    static class Config {
+        @Bean(name = "testRestTemplateRoleUser")
+        public TestRestTemplate testRestTemplateRoleUserCreator(@Value("${local.server.port}") int port){
+            RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:")
+                    .basicAuthentication("pedro", "hadouken");
+            return new TestRestTemplate(restTemplateBuilder);
+        }
+    }
+
     @Test
     @DisplayName("list returns list of series inside page object when successful")
     void list_ReturnsListOfSeriesInsidePageObject_WhenSuccessful(){
