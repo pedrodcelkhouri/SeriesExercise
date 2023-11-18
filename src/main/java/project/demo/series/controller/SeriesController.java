@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import project.demo.series.domain.Series;
 import project.demo.series.dto_requests.SeriesPostRequestBody;
@@ -35,6 +37,13 @@ public class SeriesController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Series> findById(@PathVariable long id){
+        return ResponseEntity.ok(seriesService.findByIdOrThrowBadRequestException(id));
+    }
+
+    @GetMapping(path = "by-id/{id}")
+    public ResponseEntity<Series> findByIdAuthenticationPrincipal(
+            @PathVariable long id, @AuthenticationPrincipal UserDetails userDetails){
+        log.info(userDetails);
         return ResponseEntity.ok(seriesService.findByIdOrThrowBadRequestException(id));
     }
 

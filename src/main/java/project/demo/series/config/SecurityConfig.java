@@ -17,11 +17,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+    /**
+     * BasicAuthenticationFilter
+     * UsernamePasswordAuthenticationFilter
+     * DefaultLoginPageGeneratingFilter
+     * DefaultLogoutPageGeneratingFilter
+     * FilterSecurityInterceptor
+     * Authentication -> Authorization
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
 //                csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) #deprecated
-                .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated()).httpBasic(Customizer.withDefaults());
+                .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults());
+//                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll());
         return http.build();
     }
     @Bean
