@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.demo.series.domain.Series;
 import project.demo.series.dto_requests.SeriesPostRequestBody;
@@ -43,6 +44,7 @@ public class SeriesController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Series> save(@RequestBody @Valid SeriesPostRequestBody seriesPostRequestBody){
         return new ResponseEntity<>(seriesService.save(seriesPostRequestBody), HttpStatus.CREATED);
     }
