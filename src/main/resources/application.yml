@@ -15,3 +15,14 @@ spring:
 logging:
   level:
     sql: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+
+info:
+  app: Series for study
+  github: https://github.com/pedrodcelkhouri/Series
