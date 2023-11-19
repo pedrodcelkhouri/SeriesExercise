@@ -1,8 +1,13 @@
 package project.demo.series.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,7 +31,9 @@ public class SeriesController {
     private final SeriesService seriesService;
 
     @GetMapping
-    public ResponseEntity<Page<Series>> list(Pageable pageable){
+    @Operation(summary = "List all series paginated",
+            description = "The default size is 20, use the parameter size to change the default value", tags = {"series"})
+    public ResponseEntity<Page<Series>> list(@ParameterObject Pageable pageable){
         return ResponseEntity.ok(seriesService.listAll(pageable));
     }
 
@@ -58,6 +65,10 @@ public class SeriesController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successful Operation"),
+            @ApiResponse(responseCode = "400", description = "When series does not exist in the database")
+    })
     public ResponseEntity<Void> delete(@PathVariable long id){
         seriesService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
