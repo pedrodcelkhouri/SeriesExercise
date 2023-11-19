@@ -17,6 +17,10 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<docker.distroless.image>gcr.io/distroless/java</docker.distroless.image>
+		<docker.repo.url>pedroelkhouri/series</docker.repo.url>
+		<docker.repo.project>series</docker.repo.project>
+		<docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
 	</properties>
 
 	<dependencies>
@@ -99,6 +103,24 @@
 			<id>integration-tests</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<configuration>
+							<from>
+								<image>${docker.distroless.image}</image>
+							</from>
+							<to>
+								<image>${docker.image.name}</image>
+								<tags>
+									<tag>${project.version}</tag>
+								</tags>
+							</to>
+							<container>
+								<mainClass>project/demo/series/SeriesApplication</mainClass>
+							</container>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
